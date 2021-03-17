@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Navbar from './common/navbar';
+import PokemonList from './pokemon/pokemonList';
+import PokemonDetail from './pokemon/pokemonDetail';
 
 function App() {
+  const [color, setColor] = useState(null);
+  const onColor = color => {
+      setColor(color);
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex flex-col h-screen">
+    <Router>
+        <Navbar color={color} />
+        <Switch>
+            <Route exact path="/" >
+                <PokemonList onColor={onColor} />
+            </Route>
+            <Route exact path="/pokemon/:id" >
+                <PokemonDetail color={color} onColor={onColor} />
+            </Route>
+        </Switch>
+    </Router>
     </div>
   );
 }
